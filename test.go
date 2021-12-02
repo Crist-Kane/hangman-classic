@@ -29,9 +29,12 @@ func (moi *toi) test(w int) {
 var resultat = []string{}
 
 func (moi *toi) try(text string) {
+	var exemple = []rune(words)
 	compteur := 0
+	compteur2 := 0
 	if moi.vieactuel > 0 {
 		compteur = 0
+		compteur2 = 0
 		if text >= "a" && text <= "z" || text >= "A" && text <= "Z" {
 			for i := 0; i < len(resultat); i++ {
 				for r := 0; r < len(words); r++ {
@@ -39,6 +42,7 @@ func (moi *toi) try(text string) {
 						if text == resultat[i] {
 							if text == resultat[i] {
 								fmt.Println("Dommage c'est la bonne réponse mais elle existe déja")
+								moi.choix()
 								break
 							}
 						}
@@ -51,14 +55,15 @@ func (moi *toi) try(text string) {
 						if text == resultat[i] {
 							if text == resultat[i] {
 								fmt.Println("Mince alors c'est une mauvaise réponce, mais tu a déja écrit ")
+								moi.choix()
 								break
 							}
 						}
 					}
 				}
 			}
-			for r := 0; r < len(words); r++ {
-				if len(text) > 1 {
+			for r := 0; r < len(exemple); r++ {
+				if len(text) > 1 && text != words {
 					fmt.Println("Attention le programme ne prendra que la première lettre, a moins que tu est trouver le mot au complet")
 					time.Sleep(time.Second * 2)
 					break
@@ -69,19 +74,27 @@ func (moi *toi) try(text string) {
 					moi.choix()
 					break
 				}
-				if text[0] == words[r] {
+				if text[0] == byte(exemple[r]) {
 					fmt.Println("Tu as trouver une lettre ")
-					time.Sleep(time.Second * 1)
+					moi.choix()
 					break
 				}
-				if !(text[0] == words[r]) {
-					fmt.Println("Mince alors ce n'est pas ça !!!")
-					time.Sleep(time.Second * 1)
-					moi.vieactuel -= 1
-					compteur += 1
-					fmt.Println("Il te reste ", moi.vieactuel, " PV sur ", moi.viemax)
-					time.Sleep(time.Second * 2)
-					break
+			}
+			for r := 0; r < len(exemple); r++ {
+				if !(text[0] == byte(exemple[r])) {
+					for v := 0; v < len(words); v++ {
+						if words[v] != text[0] {
+							if compteur2 == 0 {
+								fmt.Println("Mince alors ce n'est pas ça !!!")
+								time.Sleep(time.Second * 1)
+								moi.vieactuel -= 1
+								compteur += 1
+								fmt.Println("Il te reste ", moi.vieactuel, " PV sur ", moi.viemax)
+								time.Sleep(time.Second * 2)
+								compteur2 += 1
+							}
+						}
+					}
 				}
 			}
 		}
