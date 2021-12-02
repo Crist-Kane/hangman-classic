@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"os"
 	"time"
 )
 
 var mot string = ""
-var words = []string{"banc", "exmple"}
-var letter rune
-var r = []rune("test")
+var words string = "test"
+var letter string
+var r = []rune(words)
+var exmple = []rune{}
 
 type toi struct {
 	vieactuel int
@@ -20,47 +20,70 @@ type toi struct {
 func (moi *toi) init(vieactuel int, viemax int) {
 	moi.vieactuel = vieactuel
 	moi.viemax = viemax
-
 }
-func (moi *toi) choix() {
-	var commande string
-	fmt.Println("Si tu veut recommencer tape fin")
-	fmt.Println("Chose →")
-	fmt.Scan(&commande)
-	switch commande {
-	case string(letter):
-		fmt.Scan(&letter)
-		for i := 0; i < len(r); i++ {
-			if moi.vieactuel > 0 {
-				if letter == r[i] {
-					fmt.Println("Bravo tu a trouver une lettre")
-					time.Sleep(2)
-					moi.choix()
-				} else {
-					if letter != r[i] {
-						fmt.Println("Tu na pas trouver la bonne lettre")
-						moi.vieactuel -= 1
-						if moi.vieactuel <= 0 {
-							fmt.Println("Tu as perdue")
-							os.Exit(0)
+func (moi *toi) test(w int) {
+	if w == 0 {
+		fmt.Println("bravo")
+	}
+}
+func (moi *toi) help(t rune) {
+	fmt.Println("marche")
+	if t == 'a' {
+		fmt.Println("j'eassaye")
+		for e := 0; e < len(r); e++ {
+			if t == exmple[e] {
+				fmt.Println("Tu as déja donner cette lettre")
+			} else {
+				if !(t == exmple[e]) {
+					for i := 0; i < len(r); i++ {
+						if moi.vieactuel > 0 {
+							if t == r[i] {
+								fmt.Println("Bravo tu a trouver une lettre")
+								time.Sleep(2)
+								moi.choix()
+							} else {
+								if t != r[i] {
+									fmt.Println("Tu na pas trouver la bonne lettre")
+									moi.vieactuel -= 1
+									fmt.Println("Il te reste ", moi.vieactuel, " Pv")
+									time.Sleep(2)
+									if moi.vieactuel <= 0 {
+										fmt.Println("Tu as perdue")
+										os.Exit(0)
+									}
+									moi.choix()
+								}
+							}
 						}
-						moi.choix()
 					}
+
 				}
 			}
 		}
-
+	}
+}
+func (moi *toi) choix() {
+	var test rune
+	var commande string
+	fmt.Println("Si tu veut arrêter tape fin")
+	fmt.Println("Si tu veut commencer tape choix")
+	fmt.Scan(&commande)
+	switch commande {
+	case "choix":
+		fmt.Println("Chose →")
+		fmt.Scan(&test)
+		moi.help(test)
+		moi.choix()
 	case "fin":
 		os.Exit(0)
 	}
 }
-func random() {
-	rand.Seed(time.Now().Unix())
-	for i := 0; i < len(words); i++ {
-	}
-}
+
+var test toi
+
 func main() {
 	fmt.Println("ceci est un test")
-	random()
+	test.init(10, 10)
+	test.choix()
 
 }
