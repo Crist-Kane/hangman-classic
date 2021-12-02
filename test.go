@@ -9,7 +9,6 @@ import (
 var mot string = ""
 var words string = "test"
 var letter string
-var r = []rune(words)
 var exmple = []rune{}
 
 type toi struct {
@@ -26,53 +25,82 @@ func (moi *toi) test(w int) {
 		fmt.Println("bravo")
 	}
 }
-func (moi *toi) help(t rune) {
-	fmt.Println("marche")
-	if t == 'a' {
-		fmt.Println("j'eassaye")
-		for e := 0; e < len(r); e++ {
-			if t == exmple[e] {
-				fmt.Println("Tu as déja donner cette lettre")
-			} else {
-				if !(t == exmple[e]) {
-					for i := 0; i < len(r); i++ {
-						if moi.vieactuel > 0 {
-							if t == r[i] {
-								fmt.Println("Bravo tu a trouver une lettre")
-								time.Sleep(2)
-								moi.choix()
-							} else {
-								if t != r[i] {
-									fmt.Println("Tu na pas trouver la bonne lettre")
-									moi.vieactuel -= 1
-									fmt.Println("Il te reste ", moi.vieactuel, " Pv")
-									time.Sleep(2)
-									if moi.vieactuel <= 0 {
-										fmt.Println("Tu as perdue")
-										os.Exit(0)
-									}
-									moi.choix()
-								}
+
+var resultat = []string{}
+
+func (moi *toi) try(text string) {
+	compteur := 0
+	if moi.vieactuel > 0 {
+		compteur = 0
+		if text >= "a" && text <= "z" || text >= "A" && text <= "Z" {
+			for i := 0; i < len(resultat); i++ {
+				for r := 0; r < len(words); r++ {
+					if text[0] == words[r] {
+						if text == resultat[i] {
+							if text == resultat[i] {
+								fmt.Println("Dommage c'est la bonne réponse mais elle existe déja")
+								break
 							}
 						}
 					}
-
+				}
+			}
+			for i := 0; i < len(resultat); i++ {
+				for r := 0; r < len(words); r++ {
+					if !(text[0] == words[r]) {
+						if text == resultat[i] {
+							if text == resultat[i] {
+								fmt.Println("Mince alors c'est une mauvaise réponce, mais tu a déja écrit ")
+								break
+							}
+						}
+					}
+				}
+			}
+			for r := 0; r < len(words); r++ {
+				if len(text) > 1 {
+					fmt.Println("Attention le programme ne prendra que la première lettre, a moins que tu est trouver le mot au complet")
+					time.Sleep(time.Second * 2)
+					break
+				}
+				if text == words {
+					fmt.Println("Congratulation tu a gagné")
+					time.Sleep(time.Second * 2)
+					moi.choix()
+					break
+				}
+				if text[0] == words[r] {
+					fmt.Println("Tu as trouver une lettre ")
+					time.Sleep(time.Second * 1)
+					break
+				}
+				if !(text[0] == words[r]) {
+					fmt.Println("Mince alors ce n'est pas ça !!!")
+					time.Sleep(time.Second * 1)
+					moi.vieactuel -= 1
+					compteur += 1
+					fmt.Println("Il te reste ", moi.vieactuel, " PV sur ", moi.viemax)
+					time.Sleep(time.Second * 2)
+					break
 				}
 			}
 		}
 	}
+	resultat = append(resultat, text)
 }
 func (moi *toi) choix() {
-	var test rune
+	var test string
 	var commande string
-	fmt.Println("Si tu veut arrêter tape fin")
-	fmt.Println("Si tu veut commencer tape choix")
+	fmt.Println("#------------------------------------#")
+	fmt.Println(" Si tu veut arrêter tape fin")
+	fmt.Println(" Si tu veut commencer tape choix")
+	fmt.Println("#------------------------------------#")
 	fmt.Scan(&commande)
 	switch commande {
 	case "choix":
 		fmt.Println("Chose →")
 		fmt.Scan(&test)
-		moi.help(test)
+		moi.try(test)
 		moi.choix()
 	case "fin":
 		os.Exit(0)
