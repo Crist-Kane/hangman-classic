@@ -47,11 +47,6 @@ func Show_Hide(word, guessletters string) string {
 	for i := 0; i < len(word); i++ {
 		if strings.Contains(guessletters, string(word[i])) {
 			final += string(word[i])
-			if word == final {
-				fmt.Println("Tu a gagner")
-				time.Sleep(time.Second * 2)
-				os.Exit(0)
-			}
 		} else {
 			final += " _ "
 		}
