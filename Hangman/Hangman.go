@@ -41,11 +41,12 @@ var guessPlayerRune rune
 var searchwordcount int
 var HiddenWord string
 var done bool = false
+var final string = ""
 
-func HideLetters(word, knownLetters string) string {
-	final := ""
+func Show_Hide(word, guessletters string) string {
+	final = ""
 	for i := 0; i < len(word); i++ {
-		if strings.Contains(knownLetters, string(word[i])) {
+		if strings.Contains(guessletters, string(word[i])) {
 			final += string(word[i])
 		} else {
 			final += " _ "
@@ -224,7 +225,7 @@ func (player *toi) try(word_give_player string) {
 								guessplayerError = append(guessplayerError, word_give_player)
 								fmt.Println("voici déja utilisé : ", guessplayerError)
 								time.Sleep(time.Second * 1)
-								fmt.Println(HideLetters(word, guessPlayer))
+								fmt.Println(Show_Hide(word, guessPlayer))
 								player.HangmanAnnimation()
 								time.Sleep(time.Second * 2)
 								player.Game()
@@ -238,7 +239,7 @@ func (player *toi) try(word_give_player string) {
 			if guessplayer == word {
 				fmt.Println("Tu as gagner !!")
 				fmt.Println("GG")
-				player.Game()
+				os.Exit(0)
 				time.Sleep(time.Second * 2)
 			}
 			for r := 0; r < len(WordGuessRune); r++ {
@@ -252,46 +253,53 @@ func (player *toi) try(word_give_player string) {
 					guessplayerError = append(guessplayerError, word_give_player)
 					fmt.Println("voici déja utilisé : ", guessplayerError)
 					time.Sleep(time.Second * 1)
-					fmt.Println(HideLetters(word, guessPlayer))
+					fmt.Println(Show_Hide(word, guessPlayer))
 					player.HangmanAnnimation()
 					time.Sleep(time.Second * 2)
 					break
 				}
 				if word_give_player == word {
 					fmt.Println("Congratulation tu a gagné")
-					fmt.Println(HideLetters(word, guessPlayer))
+					fmt.Println(Show_Hide(word, guessPlayer))
 					time.Sleep(time.Second * 2)
-					player.Game()
+					os.Exit(0)
 					break
 				}
 			}
 			if word_give_player == word {
 				fmt.Println("Tu as gagner")
-				fmt.Println(HideLetters(word, guessPlayer))
+				fmt.Println(Show_Hide(word, guessPlayer))
+				os.Exit(0)
 			}
 			if len(word_give_player) == 1 {
 				if guessplayer == word {
 					fmt.Println("Tu as gagner !!")
-					fmt.Println(HideLetters(word, guessPlayer))
+					fmt.Println(Show_Hide(word, guessPlayer))
 					fmt.Println("GG")
-					player.Game()
+					os.Exit(0)
 					time.Sleep(time.Second * 2)
 				}
 				for r := 0; r < len(WordGuessRune); r++ {
 					if word_give_player[0] == byte(WordGuessRune[r]) {
-						fmt.Println("Tu as trouver une lettre ")
-						Count_Letter_Same++
-						guessPlayer += word_give_player
-						time.Sleep(time.Second * 1)
-						guessplayerError = append(guessplayerError, word_give_player)
-						fmt.Println("voici déja utilisé : ", guessplayerError)
-						time.Sleep(time.Second * 1)
-						fmt.Println(HideLetters(word, guessPlayer))
-						player.HangmanAnnimation()
-						time.Sleep(time.Second * 2)
-						fmt.Println(string(Allwordguess))
-						player.Game()
-						break
+						if word_give_player == guessPlayer {
+							fmt.Println("C'est une bonne réponse hélas tu ne peut pas car tu la déja donner")
+							player.Game()
+							break
+						} else {
+							fmt.Println("Tu as trouver une lettre ")
+							Count_Letter_Same++
+							guessPlayer += word_give_player
+							time.Sleep(time.Second * 1)
+							guessplayerError = append(guessplayerError, word_give_player)
+							fmt.Println("voici déja utilisé : ", guessplayerError)
+							time.Sleep(time.Second * 1)
+							fmt.Println(Show_Hide(word, guessPlayer))
+							player.HangmanAnnimation()
+							time.Sleep(time.Second * 2)
+							fmt.Println(string(Allwordguess))
+							player.Game()
+							break
+						}
 					}
 				}
 				for r := 0; r < len(WordGuessRune); r++ {
@@ -310,7 +318,7 @@ func (player *toi) try(word_give_player string) {
 									time.Sleep(time.Second * 1)
 									guessplayerError = append(guessplayerError, word_give_player)
 									fmt.Println("voici déja utilisé : ", guessplayerError)
-									fmt.Println(HideLetters(word, guessPlayer))
+									fmt.Println(Show_Hide(word, guessPlayer))
 									player.HangmanAnnimation()
 									time.Sleep(time.Second * 2)
 								}
@@ -326,7 +334,7 @@ func (player *toi) try(word_give_player string) {
 			player.vieactuel = 10
 			player.Game()
 		}
-		if HideLetters(word, guessPlayer) == HideLetters(word, "abcdefghijklmnopqrstuvwxyz") {
+		if Show_Hide(word, guessPlayer) == Show_Hide(word, "abcdefghijklmnopqrstuvwxyz") {
 			fmt.Println("Vous avez Gagné!")
 			fmt.Printf("Le Mot Etait %s\n", word)
 		}
