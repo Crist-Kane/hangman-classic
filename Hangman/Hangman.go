@@ -237,7 +237,8 @@ func (player *toi) try(word_give_player string) {
 			if guessplayer == word {
 				fmt.Println("Tu as gagner !!")
 				fmt.Println("GG")
-				os.Exit(0)
+				Generate_Random_Word = 0
+				player.Game()
 				time.Sleep(time.Second * 2)
 			}
 			for r := 0; r < len(WordGuessRune); r++ {
