@@ -213,7 +213,6 @@ func (player *toi) try(word_give_player string) {
 		if count == 0 {
 			var Count_Letter_Same int
 			count2 = 1
-			fmt.Println("Le mot est : ", word)
 			fmt.Println("Danss le mot générer il y'a ", len(word), " mots a trouvés")
 			for i := 0; i < len(resultat); i++ {
 				for r := 0; r < len(word); r++ {
