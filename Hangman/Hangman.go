@@ -260,21 +260,24 @@ func (player *toi) try(word_give_player string) {
 					fmt.Println("Congratulation tu a gagné")
 					fmt.Println(Show_Hide(word, guessPlayer))
 					time.Sleep(time.Second * 2)
-					os.Exit(0)
+					Generate_Random_Word = 0
+					player.Game()
 					break
 				}
 			}
 			if word_give_player == word {
 				fmt.Println("Tu as gagner")
 				fmt.Println(Show_Hide(word, guessPlayer))
-				os.Exit(0)
+				Generate_Random_Word = 0
+				player.Game()
 			}
 			if len(word_give_player) == 1 {
 				if guessplayer == word {
 					fmt.Println("Tu as gagner !!")
 					fmt.Println(Show_Hide(word, guessPlayer))
 					fmt.Println("GG")
-					os.Exit(0)
+					Generate_Random_Word = 0
+					player.Game()
 					time.Sleep(time.Second * 2)
 				}
 				for r := 0; r < len(WordGuessRune); r++ {
@@ -296,7 +299,9 @@ func (player *toi) try(word_give_player string) {
 							if Show_Hide(word, guessPlayer) == Show_Hide(word, "abcdefghijklmnopqrstuvwxyz") {
 								fmt.Println("Vous avez Gagné!")
 								fmt.Printf("Le Mot Etait %s\n", word)
-								os.Exit(0)
+								time.Sleep(time.Second * 1)
+								Generate_Random_Word = 0
+								player.Game()
 							}
 							time.Sleep(time.Second * 2)
 							fmt.Println(string(Allwordguess))
@@ -340,6 +345,9 @@ func (player *toi) try(word_give_player string) {
 		if Show_Hide(word, guessPlayer) == Show_Hide(word, "abcdefghijklmnopqrstuvwxyz") {
 			fmt.Println("Vous avez Gagné!")
 			fmt.Printf("Le Mot Etait %s\n", word)
+			time.Sleep(time.Second * 1)
+			Generate_Random_Word = 0
+			player.Game()
 		}
 	}
 	resultat = append(resultat, word_give_player)
