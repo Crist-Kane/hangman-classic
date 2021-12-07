@@ -293,6 +293,11 @@ func (player *toi) try(word_give_player string) {
 							time.Sleep(time.Second * 1)
 							fmt.Println(Show_Hide(word, guessPlayer))
 							player.HangmanAnnimation()
+							if Show_Hide(word, guessPlayer) == Show_Hide(word, "abcdefghijklmnopqrstuvwxyz") {
+								fmt.Println("Vous avez Gagné!")
+								fmt.Printf("Le Mot Etait %s\n", word)
+								os.Exit(0)
+							}
 							time.Sleep(time.Second * 2)
 							fmt.Println(string(Allwordguess))
 							player.Game()
