@@ -187,16 +187,22 @@ func (player *toi) HangmanAnnimation() {
 		}
 	}
 }
-func (player *toi) try(word_give_player string) {
-	rand.Seed(time.Now().UnixNano())
-	data, err := ioutil.ReadFile("mot/words.txt")
-	if err != nil {
-		os.Exit(0)
-	}
 
-	words := string(data)
-	wordsList := strings.Fields(words)
-	word = wordsList[rand.Intn(len(wordsList))]
+var Generate_Random_Word int = 0
+
+func (player *toi) try(word_give_player string) {
+	if Generate_Random_Word == 0 {
+		rand.Seed(time.Now().UnixNano())
+		data, err := ioutil.ReadFile("mot/words.txt")
+		if err != nil {
+			os.Exit(0)
+		}
+
+		words := string(data)
+		wordsList := strings.Fields(words)
+		word = wordsList[rand.Intn(len(wordsList))]
+		Generate_Random_Word = 1
+	}
 	guessplayer = ""
 	if player.vieactuel > 0 {
 		var WordGuessRune = []byte(word)
