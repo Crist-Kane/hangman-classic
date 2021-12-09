@@ -299,7 +299,6 @@ func (player *toi) try(word_give_player string) {
 								player.HangmanAnnimation()
 								time.Sleep(time.Second * 2)
 								player.Game()
-								break
 							}
 						}
 					}
@@ -332,7 +331,6 @@ func (player *toi) try(word_give_player string) {
 					fmt.Println(Show_Hide(word, guessPlayer))
 					player.HangmanAnnimation()
 					time.Sleep(time.Second * 2)
-					break
 				}
 				if word_give_player == word {
 					fmt.Println("Congratulation tu a gagné")
@@ -345,7 +343,6 @@ func (player *toi) try(word_give_player string) {
 					Generate_Random_Word = 0
 					guessplayerError = []string{}
 					player.Game()
-					break
 				}
 			}
 			if word_give_player == word {
@@ -405,7 +402,6 @@ func (player *toi) try(word_give_player string) {
 							time.Sleep(time.Second * 2)
 							fmt.Println(string(Allwordguess))
 							player.Game()
-							break
 						}
 					}
 				}
