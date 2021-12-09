@@ -284,7 +284,7 @@ func (player *toi) try(word_give_player string) {
 			var Count_Letter_Same int
 			count2 = 1
 			if !(word_give_player == word) {
-				fmt.Println(word)
+				//fmt.Println("Le ot chacher est : ", word) //si tu ne trouve pas le mot l'avoir directemnt
 				fmt.Println("Danss le mot générer il y'a ", len(word), " mots a trouvés")
 			}
 			for i := 0; i < len(resultat); i++ {
