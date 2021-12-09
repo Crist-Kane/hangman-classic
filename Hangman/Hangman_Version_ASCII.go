@@ -9,6 +9,39 @@ import (
 	"time"
 )
 
+var mot string = ""
+var word string = ""
+var letter string
+
+type toi struct {
+	vieactuel int
+	viemax    int
+}
+
+func (player *toi) init(vieactuel int, viemax int) {
+	player.vieactuel = vieactuel
+	player.viemax = viemax
+}
+func (player *toi) test(w int) {
+	if w == 0 {
+		fmt.Println("bravo")
+	}
+}
+
+var guessPlayer string = ""
+var Allwordguess rune
+var resultat = []string{}
+var underscore string = " _ "
+var YouWon bool = false
+var count int
+var count2 int
+var guessplayer string
+var guessplayerError = []string{}
+var guessPlayerRune rune
+var searchwordcount int
+var HiddenWord string
+var done bool = false
+var final string = ""
 var a []string = []string{
 	"  ##  ",
 	" #  # ",
@@ -236,42 +269,35 @@ var underscore []string = []string{
 
 var letters [][]string = [][]string{a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, space, underscore}
 
-var mot string = ""
-var word string = ""
-var letter string
-
-type toi struct {
-	vieactuel int
-	viemax    int
-}
-
-func (player *toi) init(vieactuel int, viemax int) {
-	player.vieactuel = vieactuel
-	player.viemax = viemax
-}
-func (player *toi) test(w int) {
-	if w == 0 {
-		fmt.Println("bravo")
+func PrintAscii(text string) {
+	upperText := []byte{}
+	for i := 0; i < len(text); i++ {
+		if text[i] > 96 && text[i] < 123 {
+			upperText = append(upperText, text[i]-32-65)
+		} else if text[i] == 32 {
+			upperText = append(upperText, 26)
+		} else if text[i] == 95 {
+			upperText = append(upperText, 27)
+		} else {
+			upperText = append(upperText, text[i]-65)
+		}
 	}
+	asciiIndices := []int{}
+	for i := 0; i < len(upperText); i++ {
+		asciiIndices = append(asciiIndices, int(upperText[i]))
+	}
+	for i := 0; i < 6; i++ {
+		for j := 0; j < len(asciiIndices); j++ {
+			fmt.Print(letters[asciiIndices[j]][i] + " ")
+		}
+		fmt.Print("\n")
+	}
+
 }
-
-var guessPlayer string = ""
-var Allwordguess rune
-var resultat = []string{}
-var YouWon bool = false
-var count int
-var count2 int
-var guessplayer string
-var guessplayerError = []string{}
-var guessPlayerRune rune
-var searchwordcount int
-var HiddenWord string
-var done bool = false
-
-func Show_Hide(word, guessletters string) string {
-	final := ""
+func Show_Hide(word, word_give_player string) string {
+	final = ""
 	for i := 0; i < len(word); i++ {
-		if strings.Contains(guessletters, string(word[i])) {
+		if strings.Contains(word_give_player, string(word[i])) {
 			final += string(word[i])
 		} else {
 			final += " _ "
@@ -414,32 +440,6 @@ func (player *toi) HangmanAnnimation() {
 	}
 }
 
-func PrintAscii(text string) {
-	upperText := []byte{}
-	for i := 0; i < len(text); i++ {
-		if text[i] > 96 && text[i] < 123 {
-			upperText = append(upperText, text[i]-32-65)
-		} else if text[i] == 32 {
-			upperText = append(upperText, 26)
-		} else if text[i] == 95 {
-			upperText = append(upperText, 27)
-		} else {
-			upperText = append(upperText, text[i]-65)
-		}
-	}
-	asciiIndices := []int{}
-	for i := 0; i < len(upperText); i++ {
-		asciiIndices = append(asciiIndices, int(upperText[i]))
-	}
-	for i := 0; i < 6; i++ {
-		for j := 0; j < len(asciiIndices); j++ {
-			fmt.Print(letters[asciiIndices[j]][i] + " ")
-		}
-		fmt.Print("\n")
-	}
-
-}
-
 var Generate_Random_Word int = 0
 
 func (player *toi) try(word_give_player string) {
@@ -465,7 +465,10 @@ func (player *toi) try(word_give_player string) {
 		if count == 0 {
 			var Count_Letter_Same int
 			count2 = 1
-			fmt.Println("Danss le mot générer il y'a ", len(word), " mots a trouvés")
+			fmt.Println("le mot es : ", word)
+			if !(word_give_player == word) {
+				fmt.Println("Danss le mot générer il y'a ", len(word), " mots a trouvés")
+			}
 			for i := 0; i < len(resultat); i++ {
 				for r := 0; r < len(word); r++ {
 					if !(word_give_player[0] == word[r]) {
@@ -490,6 +493,78 @@ func (player *toi) try(word_give_player string) {
 			if guessplayer == word {
 				fmt.Println("Tu as gagner !!")
 				fmt.Println("GG")
+				final = ""
+				worstLetter = ""
+				guessPlayer = ""
+				fmt.Println("     ###############         ###       ###    ############     ###       ####")
+				fmt.Println("     ###############         ###       ###    ############     ###       ####")
+				fmt.Println("     ###############         ###       ###    ############     ###       ####")
+				fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+				fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+				fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+				fmt.Println("    ##################       ###      ####    ###      ###     ###       ####")
+				fmt.Println("   ####################      ####     ####    ###      ###     ###       ####")
+				fmt.Println("   ####################      #############    ###      ###     ###       ####")
+				fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+				fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+				fmt.Println("   ###   #######  #####        #########      ###      ###     ###       ####")
+				fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+				fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+				fmt.Println(" ###      ######      ###         ###         ###      ###     ###       ####")
+				fmt.Println(" ###       #####      ###         ###         ###      ###     ###       ####")
+				fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+				fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+				fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+				fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+				fmt.Println("   ###################            ###         ###      ###     ###       ####")
+				fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+				fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+				fmt.Println("         ######                   ###         ###      ###     ###       ####")
+				fmt.Println("         ######                   ###         ###      ###     ###       ####")
+				fmt.Println("         ######                   ###         ###      ###     ###       ####")
+				fmt.Println("         ######                   ###         ###      ###     ###       ####")
+				fmt.Println("         ######                   ###         ###      ###     ###       ####")
+				fmt.Println("        ########                  ###         ###      ###     ###       ####")
+				fmt.Println("        ########                  ###         ############     ##############")
+				fmt.Println("      ############                ###         ############     ##############")
+				fmt.Println("    ################              ###         ############      ############ ")
+				fmt.Println("    ################              ###         ############      ############ ")
+				fmt.Println()
+				fmt.Println()
+				fmt.Println()
+				fmt.Println("                                                                       #####")
+				fmt.Println("                                                                       #####")
+				fmt.Println(" #####             ####   ###################     #####                #####")
+				fmt.Println(" #####             ####   ###################     #####                #####")
+				fmt.Println(" #####             ####   ###################     ######               #####")
+				fmt.Println(" #####             ####   ###################     #######              #####")
+				fmt.Println(" #####             ####         #######           #######              #####")
+				fmt.Println(" #####             ####         #######           ########             #####")
+				fmt.Println(" #####             ####         #######           ########             #####")
+				fmt.Println(" #####             ####         #######           #########            #####")
+				fmt.Println(" #####     ###     ####         #######           ###########          #####")
+				fmt.Println(" #####     ###     ####         #######           ###########          #####")
+				fmt.Println(" #####     ###     ####         #######           #### #######         #####")
+				fmt.Println(" #####    #####    ####         #######           #### #######         #####")
+				fmt.Println(" #####    #####    ####         #######           ####   ######        #####")
+				fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+				fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+				fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+				fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+				fmt.Println(" #########      #######         #######           ####        ##############")
+				fmt.Println(" #########      #######         #######           ####         #############")
+				fmt.Println(" #######         ######         #######           ####           ###########")
+				fmt.Println(" #######         ######         #######           ####           ###########")
+				fmt.Println(" ######           #####         #######           ####             #########")
+				fmt.Println(" ######           #####         #######           ####              ########")
+				fmt.Println(" #####             ####   ###################     ####                 #####")
+				fmt.Println(" ####               ###   ###################     ####                 #####")
+				fmt.Println(" ####               ###   ###################     ####                 #####")
+				fmt.Println(" ####               ###   ###################     ####                 #####")
+				time.Sleep(time.Second * 2)
+				player.vieactuel = 10
+				Generate_Random_Word = 0
+				guessplayerError = []string{}
 				os.Exit(0)
 				time.Sleep(time.Second * 2)
 			}
@@ -512,25 +587,234 @@ func (player *toi) try(word_give_player string) {
 				}
 				if word_give_player == word {
 					fmt.Println("Congratulation tu a gagné")
-					fmt.Println(Show_Hide(word, guessPlayer))
-					PrintAscii(Show_Hide(word, guessPlayer))
 					time.Sleep(time.Second * 2)
+					final = ""
+					worstLetter = ""
+					guessPlayer = ""
+					fmt.Println("     ###############         ###       ###    ############     ###       ####")
+					fmt.Println("     ###############         ###       ###    ############     ###       ####")
+					fmt.Println("     ###############         ###       ###    ############     ###       ####")
+					fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+					fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+					fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+					fmt.Println("    ##################       ###      ####    ###      ###     ###       ####")
+					fmt.Println("   ####################      ####     ####    ###      ###     ###       ####")
+					fmt.Println("   ####################      #############    ###      ###     ###       ####")
+					fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+					fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+					fmt.Println("   ###   #######  #####        #########      ###      ###     ###       ####")
+					fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+					fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+					fmt.Println(" ###      ######      ###         ###         ###      ###     ###       ####")
+					fmt.Println(" ###       #####      ###         ###         ###      ###     ###       ####")
+					fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+					fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+					fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+					fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+					fmt.Println("   ###################            ###         ###      ###     ###       ####")
+					fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+					fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+					fmt.Println("         ######                   ###         ###      ###     ###       ####")
+					fmt.Println("         ######                   ###         ###      ###     ###       ####")
+					fmt.Println("         ######                   ###         ###      ###     ###       ####")
+					fmt.Println("         ######                   ###         ###      ###     ###       ####")
+					fmt.Println("         ######                   ###         ###      ###     ###       ####")
+					fmt.Println("        ########                  ###         ###      ###     ###       ####")
+					fmt.Println("        ########                  ###         ############     ##############")
+					fmt.Println("      ############                ###         ############     ##############")
+					fmt.Println("    ################              ###         ############      ############ ")
+					fmt.Println("    ################              ###         ############      ############ ")
+					fmt.Println()
+					fmt.Println()
+					fmt.Println()
+					fmt.Println("                                                                       #####")
+					fmt.Println("                                                                       #####")
+					fmt.Println(" #####             ####   ###################     #####                #####")
+					fmt.Println(" #####             ####   ###################     #####                #####")
+					fmt.Println(" #####             ####   ###################     ######               #####")
+					fmt.Println(" #####             ####   ###################     #######              #####")
+					fmt.Println(" #####             ####         #######           #######              #####")
+					fmt.Println(" #####             ####         #######           ########             #####")
+					fmt.Println(" #####             ####         #######           ########             #####")
+					fmt.Println(" #####             ####         #######           #########            #####")
+					fmt.Println(" #####     ###     ####         #######           ###########          #####")
+					fmt.Println(" #####     ###     ####         #######           ###########          #####")
+					fmt.Println(" #####     ###     ####         #######           #### #######         #####")
+					fmt.Println(" #####    #####    ####         #######           #### #######         #####")
+					fmt.Println(" #####    #####    ####         #######           ####   ######        #####")
+					fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+					fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+					fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+					fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+					fmt.Println(" #########      #######         #######           ####        ##############")
+					fmt.Println(" #########      #######         #######           ####         #############")
+					fmt.Println(" #######         ######         #######           ####           ###########")
+					fmt.Println(" #######         ######         #######           ####           ###########")
+					fmt.Println(" ######           #####         #######           ####             #########")
+					fmt.Println(" ######           #####         #######           ####              ########")
+					fmt.Println(" #####             ####   ###################     ####                 #####")
+					fmt.Println(" ####               ###   ###################     ####                 #####")
+					fmt.Println(" ####               ###   ###################     ####                 #####")
+					fmt.Println(" ####               ###   ###################     ####                 #####")
+					time.Sleep(time.Second * 2)
+					player.vieactuel = 10
 					Generate_Random_Word = 0
+					guessplayerError = []string{}
 					player.Game()
 					break
 				}
 			}
 			if word_give_player == word {
 				fmt.Println("Tu as gagner")
-				fmt.Println(Show_Hide(word, guessPlayer))
+				final = ""
+				worstLetter = ""
+				guessPlayer = ""
+				fmt.Println("     ###############         ###       ###    ############     ###       ####")
+				fmt.Println("     ###############         ###       ###    ############     ###       ####")
+				fmt.Println("     ###############         ###       ###    ############     ###       ####")
+				fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+				fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+				fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+				fmt.Println("    ##################       ###      ####    ###      ###     ###       ####")
+				fmt.Println("   ####################      ####     ####    ###      ###     ###       ####")
+				fmt.Println("   ####################      #############    ###      ###     ###       ####")
+				fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+				fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+				fmt.Println("   ###   #######  #####        #########      ###      ###     ###       ####")
+				fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+				fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+				fmt.Println(" ###      ######      ###         ###         ###      ###     ###       ####")
+				fmt.Println(" ###       #####      ###         ###         ###      ###     ###       ####")
+				fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+				fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+				fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+				fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+				fmt.Println("   ###################            ###         ###      ###     ###       ####")
+				fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+				fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+				fmt.Println("         ######                   ###         ###      ###     ###       ####")
+				fmt.Println("         ######                   ###         ###      ###     ###       ####")
+				fmt.Println("         ######                   ###         ###      ###     ###       ####")
+				fmt.Println("         ######                   ###         ###      ###     ###       ####")
+				fmt.Println("         ######                   ###         ###      ###     ###       ####")
+				fmt.Println("        ########                  ###         ###      ###     ###       ####")
+				fmt.Println("        ########                  ###         ############     ##############")
+				fmt.Println("      ############                ###         ############     ##############")
+				fmt.Println("    ################              ###         ############      ############ ")
+				fmt.Println("    ################              ###         ############      ############ ")
+				fmt.Println()
+				fmt.Println()
+				fmt.Println()
+				fmt.Println("                                                                       #####")
+				fmt.Println("                                                                       #####")
+				fmt.Println(" #####             ####   ###################     #####                #####")
+				fmt.Println(" #####             ####   ###################     #####                #####")
+				fmt.Println(" #####             ####   ###################     ######               #####")
+				fmt.Println(" #####             ####   ###################     #######              #####")
+				fmt.Println(" #####             ####         #######           #######              #####")
+				fmt.Println(" #####             ####         #######           ########             #####")
+				fmt.Println(" #####             ####         #######           ########             #####")
+				fmt.Println(" #####             ####         #######           #########            #####")
+				fmt.Println(" #####     ###     ####         #######           ###########          #####")
+				fmt.Println(" #####     ###     ####         #######           ###########          #####")
+				fmt.Println(" #####     ###     ####         #######           #### #######         #####")
+				fmt.Println(" #####    #####    ####         #######           #### #######         #####")
+				fmt.Println(" #####    #####    ####         #######           ####   ######        #####")
+				fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+				fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+				fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+				fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+				fmt.Println(" #########      #######         #######           ####        ##############")
+				fmt.Println(" #########      #######         #######           ####         #############")
+				fmt.Println(" #######         ######         #######           ####           ###########")
+				fmt.Println(" #######         ######         #######           ####           ###########")
+				fmt.Println(" ######           #####         #######           ####             #########")
+				fmt.Println(" ######           #####         #######           ####              ########")
+				fmt.Println(" #####             ####   ###################     ####                 #####")
+				fmt.Println(" ####               ###   ###################     ####                 #####")
+				fmt.Println(" ####               ###   ###################     ####                 #####")
+				fmt.Println(" ####               ###   ###################     ####                 #####")
+				time.Sleep(time.Second * 2)
+				player.vieactuel = 10
+				guessplayerError = []string{}
 				Generate_Random_Word = 0
 				player.Game()
 			}
 			if len(word_give_player) == 1 {
 				if guessplayer == word {
 					fmt.Println("Tu as gagner !!")
-					fmt.Println(Show_Hide(word, guessPlayer))
 					fmt.Println("GG")
+					final = ""
+					worstLetter = ""
+					guessPlayer = ""
+					fmt.Println("     ###############         ###       ###    ############     ###       ####")
+					fmt.Println("     ###############         ###       ###    ############     ###       ####")
+					fmt.Println("     ###############         ###       ###    ############     ###       ####")
+					fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+					fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+					fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+					fmt.Println("    ##################       ###      ####    ###      ###     ###       ####")
+					fmt.Println("   ####################      ####     ####    ###      ###     ###       ####")
+					fmt.Println("   ####################      #############    ###      ###     ###       ####")
+					fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+					fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+					fmt.Println("   ###   #######  #####        #########      ###      ###     ###       ####")
+					fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+					fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+					fmt.Println(" ###      ######      ###         ###         ###      ###     ###       ####")
+					fmt.Println(" ###       #####      ###         ###         ###      ###     ###       ####")
+					fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+					fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+					fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+					fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+					fmt.Println("   ###################            ###         ###      ###     ###       ####")
+					fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+					fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+					fmt.Println("         ######                   ###         ###      ###     ###       ####")
+					fmt.Println("         ######                   ###         ###      ###     ###       ####")
+					fmt.Println("         ######                   ###         ###      ###     ###       ####")
+					fmt.Println("         ######                   ###         ###      ###     ###       ####")
+					fmt.Println("         ######                   ###         ###      ###     ###       ####")
+					fmt.Println("        ########                  ###         ###      ###     ###       ####")
+					fmt.Println("        ########                  ###         ############     ##############")
+					fmt.Println("      ############                ###         ############     ##############")
+					fmt.Println("    ################              ###         ############      ############ ")
+					fmt.Println("    ################              ###         ############      ############ ")
+					fmt.Println()
+					fmt.Println()
+					fmt.Println()
+					fmt.Println("                                                                       #####")
+					fmt.Println("                                                                       #####")
+					fmt.Println(" #####             ####   ###################     #####                #####")
+					fmt.Println(" #####             ####   ###################     #####                #####")
+					fmt.Println(" #####             ####   ###################     ######               #####")
+					fmt.Println(" #####             ####   ###################     #######              #####")
+					fmt.Println(" #####             ####         #######           #######              #####")
+					fmt.Println(" #####             ####         #######           ########             #####")
+					fmt.Println(" #####             ####         #######           ########             #####")
+					fmt.Println(" #####             ####         #######           #########            #####")
+					fmt.Println(" #####     ###     ####         #######           ###########          #####")
+					fmt.Println(" #####     ###     ####         #######           ###########          #####")
+					fmt.Println(" #####     ###     ####         #######           #### #######         #####")
+					fmt.Println(" #####    #####    ####         #######           #### #######         #####")
+					fmt.Println(" #####    #####    ####         #######           ####   ######        #####")
+					fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+					fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+					fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+					fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+					fmt.Println(" #########      #######         #######           ####        ##############")
+					fmt.Println(" #########      #######         #######           ####         #############")
+					fmt.Println(" #######         ######         #######           ####           ###########")
+					fmt.Println(" #######         ######         #######           ####           ###########")
+					fmt.Println(" ######           #####         #######           ####             #########")
+					fmt.Println(" ######           #####         #######           ####              ########")
+					fmt.Println(" #####             ####   ###################     ####                 #####")
+					fmt.Println(" ####               ###   ###################     ####                 #####")
+					fmt.Println(" ####               ###   ###################     ####                 #####")
+					fmt.Println(" ####               ###   ###################     ####                 #####")
+					time.Sleep(time.Second * 2)
+					player.vieactuel = 10
+					guessplayerError = []string{}
 					Generate_Random_Word = 0
 					player.Game()
 					time.Sleep(time.Second * 2)
@@ -553,9 +837,79 @@ func (player *toi) try(word_give_player string) {
 							PrintAscii(Show_Hide(word, guessPlayer))
 							player.HangmanAnnimation()
 							if Show_Hide(word, guessPlayer) == Show_Hide(word, "abcdefghijklmnopqrstuvwxyz") {
-								PrintAscii(Show_Hide(word, guessPlayer))
 								fmt.Println("Vous avez Gagné!")
 								fmt.Printf("Le Mot Etait %s\n", word)
+								final = ""
+								worstLetter = ""
+								guessPlayer = ""
+								fmt.Println("     ###############         ###       ###    ############     ###       ####")
+								fmt.Println("     ###############         ###       ###    ############     ###       ####")
+								fmt.Println("     ###############         ###       ###    ############     ###       ####")
+								fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+								fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+								fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+								fmt.Println("    ##################       ###      ####    ###      ###     ###       ####")
+								fmt.Println("   ####################      ####     ####    ###      ###     ###       ####")
+								fmt.Println("   ####################      #############    ###      ###     ###       ####")
+								fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+								fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+								fmt.Println("   ###   #######  #####        #########      ###      ###     ###       ####")
+								fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+								fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+								fmt.Println(" ###      ######      ###         ###         ###      ###     ###       ####")
+								fmt.Println(" ###       #####      ###         ###         ###      ###     ###       ####")
+								fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+								fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+								fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+								fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+								fmt.Println("   ###################            ###         ###      ###     ###       ####")
+								fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+								fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+								fmt.Println("         ######                   ###         ###      ###     ###       ####")
+								fmt.Println("         ######                   ###         ###      ###     ###       ####")
+								fmt.Println("         ######                   ###         ###      ###     ###       ####")
+								fmt.Println("         ######                   ###         ###      ###     ###       ####")
+								fmt.Println("         ######                   ###         ###      ###     ###       ####")
+								fmt.Println("        ########                  ###         ###      ###     ###       ####")
+								fmt.Println("        ########                  ###         ############     ##############")
+								fmt.Println("      ############                ###         ############     ##############")
+								fmt.Println("    ################              ###         ############      ############ ")
+								fmt.Println("    ################              ###         ############      ############ ")
+								fmt.Println()
+								fmt.Println()
+								fmt.Println()
+								fmt.Println("                                                                       #####")
+								fmt.Println("                                                                       #####")
+								fmt.Println(" #####             ####   ###################     #####                #####")
+								fmt.Println(" #####             ####   ###################     #####                #####")
+								fmt.Println(" #####             ####   ###################     ######               #####")
+								fmt.Println(" #####             ####   ###################     #######              #####")
+								fmt.Println(" #####             ####         #######           #######              #####")
+								fmt.Println(" #####             ####         #######           ########             #####")
+								fmt.Println(" #####             ####         #######           ########             #####")
+								fmt.Println(" #####             ####         #######           #########            #####")
+								fmt.Println(" #####     ###     ####         #######           ###########          #####")
+								fmt.Println(" #####     ###     ####         #######           ###########          #####")
+								fmt.Println(" #####     ###     ####         #######           #### #######         #####")
+								fmt.Println(" #####    #####    ####         #######           #### #######         #####")
+								fmt.Println(" #####    #####    ####         #######           ####   ######        #####")
+								fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+								fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+								fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+								fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+								fmt.Println(" #########      #######         #######           ####        ##############")
+								fmt.Println(" #########      #######         #######           ####         #############")
+								fmt.Println(" #######         ######         #######           ####           ###########")
+								fmt.Println(" #######         ######         #######           ####           ###########")
+								fmt.Println(" ######           #####         #######           ####             #########")
+								fmt.Println(" ######           #####         #######           ####              ########")
+								fmt.Println(" #####             ####   ###################     ####                 #####")
+								fmt.Println(" ####               ###   ###################     ####                 #####")
+								fmt.Println(" ####               ###   ###################     ####                 #####")
+								fmt.Println(" ####               ###   ###################     ####                 #####")
+								time.Sleep(time.Second * 2)
+								player.vieactuel = 10
+								guessplayerError = []string{}
 								time.Sleep(time.Second * 1)
 								Generate_Random_Word = 0
 								player.Game()
@@ -597,12 +951,116 @@ func (player *toi) try(word_give_player string) {
 		if player.vieactuel <= 0 {
 			fmt.Println("Tu as PERDUE!!!")
 			fmt.Println("La réponse était : ", word)
+			final = ""
+			worstLetter = ""
+			guessPlayer = ""
+			fmt.Println()
+			fmt.Println()
+			fmt.Println()
+			fmt.Println()
+			fmt.Println("                      :::!~!!!!!:.")
+			fmt.Println("                  .xUHWH!! !!?M88WHX:.")
+			fmt.Println("                .X*#M@$!!  !X!M$$$$$$WWx:.")
+			fmt.Println("               :!!!!!!?H! :!$!$$$$$$$$$$8X:")
+			fmt.Println("              !!~  ~:~!! :~!$!#$$$$$$$$$$8X:")
+			fmt.Println("             ~!~!!!!~~ .:XW$$$U!!?$$$$$$RMM!")
+			fmt.Println("               !:~~~ .:!M'T#$$$$WX??#MRRMMM!")
+			fmt.Println("               ~?WuxiW*`   `'#$$$$8!!!!??!!!")
+			fmt.Println("             :X- M$$$$       `'T#$T~!8$WUXU~")
+			fmt.Println("            :%`  ~#$$$m:        ~!~ ?$$$$$$")
+			fmt.Println("          :!`.-   ~T$$$$8xx.  .xWW- ~''##*'")
+			fmt.Println(".....   -~~:<` !    ~?T#$$@@W@*?$$      /`")
+			fmt.Println("W$@@M!!! .!~~ !!     .:XUW$W!~ `'~:    :")
+			fmt.Println("#'~~`.:x%`!!  !H:   !WM$$$$Ti.: .!WUn+!`")
+			fmt.Println(":::~:!!`:X~ .: ?H.!u '$$$B$$$!W:U!T$$M~")
+			fmt.Println(".~~   :X@!.-~   ?@WTWo('*$$$W$TH$! `")
+			fmt.Println("Wi.~!X$?!-~    : ?$$$B$Wu('**$RM!")
+			fmt.Println("$R@i.~~ !     :   ~$$$$$B$$en:``")
+			fmt.Println("?MXT@Wx.~    :     ~'##*$$$$M~")
+			fmt.Println()
+			fmt.Println()
+			fmt.Println()
+			fmt.Println()
+			time.Sleep(time.Second * 2)
+			guessplayerError = []string{}
+			Generate_Random_Word = 0
 			player.vieactuel = 10
 			player.Game()
 		}
 		if Show_Hide(word, guessPlayer) == Show_Hide(word, "abcdefghijklmnopqrstuvwxyz") {
 			fmt.Println("Vous avez Gagné!")
 			fmt.Printf("Le Mot Etait %s\n", word)
+			final = ""
+			worstLetter = ""
+			guessPlayer = ""
+			fmt.Println("     ###############         ###       ###    ############     ###       ####")
+			fmt.Println("     ###############         ###       ###    ############     ###       ####")
+			fmt.Println("     ###############         ###       ###    ############     ###       ####")
+			fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+			fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+			fmt.Println("       ###########           ###       ###    ###      ###     ###       ####")
+			fmt.Println("    ##################       ###      ####    ###      ###     ###       ####")
+			fmt.Println("   ####################      ####     ####    ###      ###     ###       ####")
+			fmt.Println("   ####################      #############    ###      ###     ###       ####")
+			fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+			fmt.Println("   ###  ########  #####      #############    ###      ###     ###       ####")
+			fmt.Println("   ###   #######  #####        #########      ###      ###     ###       ####")
+			fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+			fmt.Println("  ###    #######     ###          ###         ###      ###     ###       ####")
+			fmt.Println(" ###      ######      ###         ###         ###      ###     ###       ####")
+			fmt.Println(" ###       #####      ###         ###         ###      ###     ###       ####")
+			fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+			fmt.Println("  ###       ####     ###          ###         ###      ###     ###       ####")
+			fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+			fmt.Println("   ###   #######  #####           ###         ###      ###     ###       ####")
+			fmt.Println("   ###################            ###         ###      ###     ###       ####")
+			fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+			fmt.Println("    #### ###### #####             ###         ###      ###     ###       ####")
+			fmt.Println("         ######                   ###         ###      ###     ###       ####")
+			fmt.Println("         ######                   ###         ###      ###     ###       ####")
+			fmt.Println("         ######                   ###         ###      ###     ###       ####")
+			fmt.Println("         ######                   ###         ###      ###     ###       ####")
+			fmt.Println("         ######                   ###         ###      ###     ###       ####")
+			fmt.Println("        ########                  ###         ###      ###     ###       ####")
+			fmt.Println("        ########                  ###         ############     ##############")
+			fmt.Println("      ############                ###         ############     ##############")
+			fmt.Println("    ################              ###         ############      ############ ")
+			fmt.Println("    ################              ###         ############      ############ ")
+			fmt.Println()
+			fmt.Println()
+			fmt.Println()
+			fmt.Println("                                                                       #####")
+			fmt.Println("                                                                       #####")
+			fmt.Println(" #####             ####   ###################     #####                #####")
+			fmt.Println(" #####             ####   ###################     #####                #####")
+			fmt.Println(" #####             ####   ###################     ######               #####")
+			fmt.Println(" #####             ####   ###################     #######              #####")
+			fmt.Println(" #####             ####         #######           #######              #####")
+			fmt.Println(" #####             ####         #######           ########             #####")
+			fmt.Println(" #####             ####         #######           ########             #####")
+			fmt.Println(" #####             ####         #######           #########            #####")
+			fmt.Println(" #####     ###     ####         #######           ###########          #####")
+			fmt.Println(" #####     ###     ####         #######           ###########          #####")
+			fmt.Println(" #####     ###     ####         #######           #### #######         #####")
+			fmt.Println(" #####    #####    ####         #######           #### #######         #####")
+			fmt.Println(" #####    #####    ####         #######           ####   ######        #####")
+			fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+			fmt.Println(" #####   #######   ####         #######           ####    #######      #####")
+			fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+			fmt.Println(" #####  ####   ### ####         #######           ####      ################")
+			fmt.Println(" #########      #######         #######           ####        ##############")
+			fmt.Println(" #########      #######         #######           ####         #############")
+			fmt.Println(" #######         ######         #######           ####           ###########")
+			fmt.Println(" #######         ######         #######           ####           ###########")
+			fmt.Println(" ######           #####         #######           ####             #########")
+			fmt.Println(" ######           #####         #######           ####              ########")
+			fmt.Println(" #####             ####   ###################     ####                 #####")
+			fmt.Println(" ####               ###   ###################     ####                 #####")
+			fmt.Println(" ####               ###   ###################     ####                 #####")
+			fmt.Println(" ####               ###   ###################     ####                 #####")
+			time.Sleep(time.Second * 2)
+			player.vieactuel = 10
+			guessplayerError = []string{}
 			time.Sleep(time.Second * 1)
 			Generate_Random_Word = 0
 			player.Game()
