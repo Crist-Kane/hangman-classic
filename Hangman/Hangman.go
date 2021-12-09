@@ -369,6 +369,34 @@ func (player *toi) try(word_give_player string) {
 			final = ""
 			worstLetter = ""
 			guessPlayer = ""
+			fmt.Println()
+			fmt.Println()
+			fmt.Println()
+			fmt.Println()
+			fmt.Println("                      :::!~!!!!!:.")
+			fmt.Println("                  .xUHWH!! !!?M88WHX:.")
+			fmt.Println("                .X*#M@$!!  !X!M$$$$$$WWx:.")
+			fmt.Println("               :!!!!!!?H! :!$!$$$$$$$$$$8X:")
+			fmt.Println("              !!~  ~:~!! :~!$!#$$$$$$$$$$8X:")
+			fmt.Println("             ~!~!!!!~~ .:XW$$$U!!?$$$$$$RMM!")
+			fmt.Println("               !:~~~ .:!M'T#$$$$WX??#MRRMMM!")
+			fmt.Println("               ~?WuxiW*`   `'#$$$$8!!!!??!!!")
+			fmt.Println("             :X- M$$$$       `'T#$T~!8$WUXU~")
+			fmt.Println("            :%`  ~#$$$m:        ~!~ ?$$$$$$")
+			fmt.Println("          :!`.-   ~T$$$$8xx.  .xWW- ~''##*'")
+			fmt.Println(".....   -~~:<` !    ~?T#$$@@W@*?$$      /`")
+			fmt.Println("W$@@M!!! .!~~ !!     .:XUW$W!~ `'~:    :")
+			fmt.Println("#'~~`.:x%`!!  !H:   !WM$$$$Ti.: .!WUn+!`")
+			fmt.Println(":::~:!!`:X~ .: ?H.!u '$$$B$$$!W:U!T$$M~")
+			fmt.Println(".~~   :X@!.-~   ?@WTWo('*$$$W$TH$! `")
+			fmt.Println("Wi.~!X$?!-~    : ?$$$B$Wu('**$RM!")
+			fmt.Println("$R@i.~~ !     :   ~$$$$$B$$en:``")
+			fmt.Println("?MXT@Wx.~    :     ~'##*$$$$M~")
+			fmt.Println()
+			fmt.Println()
+			fmt.Println()
+			fmt.Println()
+			time.Sleep(time.Second * 2)
 			guessplayerError = []string{}
 			Generate_Random_Word = 0
 			player.vieactuel = 10
