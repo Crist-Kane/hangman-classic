@@ -532,7 +532,6 @@ func (player *toi) try(word_give_player string) {
 		if count == 0 {
 			var Count_Letter_Same int
 			count2 = 1
-			fmt.Println("le mot es : ", word)
 			if !(word_give_player == word) {
 				fmt.Println("Danss le mot générer il y'a ", len(word), " mots a trouvés")
 			}
@@ -551,7 +550,6 @@ func (player *toi) try(word_give_player string) {
 								player.HangmanAnnimation()
 								time.Sleep(time.Second * 2)
 								player.Game()
-								break
 							}
 						}
 					}
@@ -585,7 +583,6 @@ func (player *toi) try(word_give_player string) {
 					PrintAscii(Show_Hide(word, guessPlayer))
 					player.HangmanAnnimation()
 					time.Sleep(time.Second * 2)
-					break
 				}
 				if word_give_player == word {
 					fmt.Println("Congratulation tu a gagné")
@@ -598,7 +595,6 @@ func (player *toi) try(word_give_player string) {
 					Generate_Random_Word = 0
 					guessplayerError = []string{}
 					player.Game()
-					break
 				}
 			}
 			if word_give_player == word {
@@ -631,7 +627,6 @@ func (player *toi) try(word_give_player string) {
 						if word_give_player == guessPlayer {
 							fmt.Println("C'est une bonne réponse hélas tu ne peut pas car tu la déja donner")
 							player.Game()
-							break
 						} else {
 							fmt.Println("Tu as trouver une lettre ")
 							Count_Letter_Same++
@@ -659,7 +654,6 @@ func (player *toi) try(word_give_player string) {
 							time.Sleep(time.Second * 2)
 							fmt.Println(string(Allwordguess))
 							player.Game()
-							break
 						}
 					}
 				}
