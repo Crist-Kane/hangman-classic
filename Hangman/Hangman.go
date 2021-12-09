@@ -8,8 +8,6 @@ import (
 	"strings"
 	"time"
 )
-
-var mot string = ""
 var word string = ""
 var letter string
 
