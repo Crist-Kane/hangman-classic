@@ -41,11 +41,12 @@ var guessPlayerRune rune
 var searchwordcount int
 var HiddenWord string
 var done bool = false
+var final string = ""
 
-func Show_Hide(word, guessletters string) string {
-	final := ""
+func Show_Hide(word, word_give_player string) string {
+	final = ""
 	for i := 0; i < len(word); i++ {
-		if strings.Contains(guessletters, string(word[i])) {
+		if strings.Contains(word_give_player, string(word[i])) {
 			final += string(word[i])
 		} else {
 			final += " _ "
@@ -213,7 +214,10 @@ func (player *toi) try(word_give_player string) {
 		if count == 0 {
 			var Count_Letter_Same int
 			count2 = 1
-			fmt.Println("Danss le mot générer il y'a ", len(word), " mots a trouvés")
+			fmt.Println("le mot es : ", word)
+			if !(word_give_player == word) {
+				fmt.Println("Danss le mot générer il y'a ", len(word), " mots a trouvés")
+			}
 			for i := 0; i < len(resultat); i++ {
 				for r := 0; r < len(word); r++ {
 					if !(word_give_player[0] == word[r]) {
@@ -237,8 +241,13 @@ func (player *toi) try(word_give_player string) {
 			if guessplayer == word {
 				fmt.Println("Tu as gagner !!")
 				fmt.Println("GG")
+				final = ""
+				worstLetter = ""
+				guessPlayer = ""
+				player.vieactuel = 10
 				Generate_Random_Word = 0
-				player.Game()
+				guessplayerError = []string{}
+				os.Exit(0)
 				time.Sleep(time.Second * 2)
 			}
 			for r := 0; r < len(WordGuessRune); r++ {
@@ -259,24 +268,36 @@ func (player *toi) try(word_give_player string) {
 				}
 				if word_give_player == word {
 					fmt.Println("Congratulation tu a gagné")
-					fmt.Println(Show_Hide(word, guessPlayer))
 					time.Sleep(time.Second * 2)
+					final = ""
+					worstLetter = ""
+					guessPlayer = ""
+					player.vieactuel = 10
 					Generate_Random_Word = 0
+					guessplayerError = []string{}
 					player.Game()
 					break
 				}
 			}
 			if word_give_player == word {
 				fmt.Println("Tu as gagner")
-				fmt.Println(Show_Hide(word, guessPlayer))
+				final = ""
+				worstLetter = ""
+				guessPlayer = ""
+				player.vieactuel = 10
+				guessplayerError = []string{}
 				Generate_Random_Word = 0
 				player.Game()
 			}
 			if len(word_give_player) == 1 {
 				if guessplayer == word {
 					fmt.Println("Tu as gagner !!")
-					fmt.Println(Show_Hide(word, guessPlayer))
 					fmt.Println("GG")
+					final = ""
+					worstLetter = ""
+					guessPlayer = ""
+					player.vieactuel = 10
+					guessplayerError = []string{}
 					Generate_Random_Word = 0
 					player.Game()
 					time.Sleep(time.Second * 2)
@@ -300,6 +321,11 @@ func (player *toi) try(word_give_player string) {
 							if Show_Hide(word, guessPlayer) == Show_Hide(word, "abcdefghijklmnopqrstuvwxyz") {
 								fmt.Println("Vous avez Gagné!")
 								fmt.Printf("Le Mot Etait %s\n", word)
+								final = ""
+								worstLetter = ""
+								guessPlayer = ""
+								player.vieactuel = 10
+								guessplayerError = []string{}
 								time.Sleep(time.Second * 1)
 								Generate_Random_Word = 0
 								player.Game()
@@ -340,12 +366,22 @@ func (player *toi) try(word_give_player string) {
 		if player.vieactuel <= 0 {
 			fmt.Println("Tu as PERDUE!!!")
 			fmt.Println("La réponse était : ", word)
+			final = ""
+			worstLetter = ""
+			guessPlayer = ""
+			guessplayerError = []string{}
+			Generate_Random_Word = 0
 			player.vieactuel = 10
 			player.Game()
 		}
 		if Show_Hide(word, guessPlayer) == Show_Hide(word, "abcdefghijklmnopqrstuvwxyz") {
 			fmt.Println("Vous avez Gagné!")
 			fmt.Printf("Le Mot Etait %s\n", word)
+			final = ""
+			worstLetter = ""
+			guessPlayer = ""
+			player.vieactuel = 10
+			guessplayerError = []string{}
 			time.Sleep(time.Second * 1)
 			Generate_Random_Word = 0
 			player.Game()
