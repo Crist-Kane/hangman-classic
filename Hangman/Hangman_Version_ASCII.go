@@ -9,7 +9,6 @@ import (
 	"time"
 )
 
-var mot string = ""
 var word string = ""
 var letter string
 
